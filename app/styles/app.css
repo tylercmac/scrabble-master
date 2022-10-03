@@ -1,0 +1,234 @@
+body { 
+  background-color: #b01315;
+  color: #ffffff;
+  font-family: 'Roboto Slab', serif !important;
+}
+
+h1 {
+  font-size: 45px;
+  text-align: center;
+  margin: 30px 5px 25px 5px;
+}
+
+h3 {
+  text-align: center;
+}
+
+.score-block {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+}
+
+.score {
+  margin: 2px 10px;
+  font-size: 24px;
+  color: gainsboro;
+}
+
+.inputs {
+  max-width: 80px;
+  margin: 0 24px;
+}
+
+.add-score {
+  margin: 0 20px;;
+}
+
+:root {
+  padding: 5vh 5vw;
+  background-color: #e6c998;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-image: radial-gradient(center, #7c6f59, transparent);
+}
+:root {
+  position: fixed;
+  content: "";
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/grit-fs8.png');
+}
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 90vh;
+  width: 90vw;
+  box-sizing: border-box;
+}
+.rack {
+  display: flex;
+  justify-content: center;
+}
+.rack .tile {
+  margin: 0.5mm;
+  background-color: #f5cf90;
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/veneer-birch-texture-fs8.png');
+  position: relative;
+  width: 9mm;
+  height: 9mm;
+  box-sizing: border-box;
+  box-shadow: 0 1.125mm 0.75mm -0.5mm rgba(0, 0, 0, 0.4);
+  border-style: solid;
+  border-top-width: 0.75mm;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1.125mm;
+  border-top-color: rgba(255, 255, 255, 0.45);
+  border-left-color: rgba(255, 255, 255, 0.25);
+  border-right-color: rgba(0, 0, 0, 0.15);
+  border-bottom-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.75mm;
+}
+.rack .tile[data-letter]::before {
+  content: attr(data-letter);
+  text-transform: uppercase;
+  font-family: Oswald, sans-serif;
+  font-size: 6mm;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: 4px 4px 6px #f5cf90, 0 0 0 rgba(0, 0, 0, 0.7), 1px 2px 1px rgba(255, 255, 255, 0.5);
+}
+.rack .tile[data-letter]::after {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: sans-serif;
+  font-size: 3mm;
+  position: absolute;
+  right: 12.5%;
+  bottom: 12.5%;
+  transform: translate(50%, 50%);
+}
+.rack .tile[data-letter='e']::after,
+.rack .tile[data-letter='a']::after,
+.rack .tile[data-letter='i']::after,
+.rack .tile[data-letter='o']::after,
+.rack .tile[data-letter='n']::after,
+.rack .tile[data-letter='r']::after,
+.rack .tile[data-letter='t']::after,
+.rack .tile[data-letter='l']::after,
+.rack .tile[data-letter='s']::after,
+.rack .tile[data-letter='u']::after {
+  content: "1";
+}
+.rack .tile[data-letter='d']::after,
+.rack .tile[data-letter='g']::after {
+  content: "2";
+}
+.rack .tile[data-letter='b']::after,
+.rack .tile[data-letter='c']::after,
+.rack .tile[data-letter='m']::after,
+.rack .tile[data-letter='p']::after {
+  content: "3";
+}
+.rack .tile[data-letter='f']::after,
+.rack .tile[data-letter='h']::after,
+.rack .tile[data-letter='v']::after,
+.rack .tile[data-letter='w']::after,
+.rack .tile[data-letter='y']::after {
+  content: "4";
+}
+.rack .tile[data-letter='k']::after {
+  content: "5";
+}
+.rack .tile[data-letter='j']::after,
+.rack .tile[data-letter='x']::after {
+  content: "8";
+}
+.rack .tile[data-letter='q']::after,
+.rack .tile[data-letter='z']::after {
+  content: "10";
+}
+.all {
+  margin-top: 12.5mm;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 103.55mm;
+  height: 103.55mm;
+}
+.all .tile {
+  background-color: #f5cf90;
+  background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/veneer-birch-texture-fs8.png');
+  position: relative;
+  width: 9.5mm;
+  height: 9.5mm;
+  box-sizing: border-box;
+  box-shadow: 0 0.5625mm 0.375mm -0.25mm rgba(0, 0, 0, 0.4);
+  border-style: solid;
+  border-top-width: 0.375mm;
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 0.5625mm;
+  border-top-color: rgba(255, 255, 255, 0.45);
+  border-left-color: rgba(255, 255, 255, 0.25);
+  border-right-color: rgba(0, 0, 0, 0.15);
+  border-bottom-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.375mm;
+}
+.all .tile[data-letter]::before {
+  content: attr(data-letter);
+  text-transform: uppercase;
+  font-family: Oswald, sans-serif;
+  font-size: 6.65mm;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(0, 0, 0, 0.6);
+  text-shadow: 4px 4px 6px #f5cf90, 0 0 0 rgba(0, 0, 0, 0.7), 1px 2px 1px rgba(255, 255, 255, 0.5);
+}
+.all .tile[data-letter]::after {
+  color: rgba(0, 0, 0, 0.7);
+  font-family: sans-serif;
+  font-size: 2.1375mm;
+  position: absolute;
+  right: 12.5%;
+  bottom: 12.5%;
+  transform: translate(50%, 50%);
+}
+.all .tile[data-letter='e']::after,
+.all .tile[data-letter='a']::after,
+.all .tile[data-letter='i']::after,
+.all .tile[data-letter='o']::after,
+.all .tile[data-letter='n']::after,
+.all .tile[data-letter='r']::after,
+.all .tile[data-letter='t']::after,
+.all .tile[data-letter='l']::after,
+.all .tile[data-letter='s']::after,
+.all .tile[data-letter='u']::after {
+  content: "1";
+}
+.all .tile[data-letter='d']::after,
+.all .tile[data-letter='g']::after {
+  content: "2";
+}
+.all .tile[data-letter='b']::after,
+.all .tile[data-letter='c']::after,
+.all .tile[data-letter='m']::after,
+.all .tile[data-letter='p']::after {
+  content: "3";
+}
+.all .tile[data-letter='f']::after,
+.all .tile[data-letter='h']::after,
+.all .tile[data-letter='v']::after,
+.all .tile[data-letter='w']::after,
+.all .tile[data-letter='y']::after {
+  content: "4";
+}
+.all .tile[data-letter='k']::after {
+  content: "5";
+}
+.all .tile[data-letter='j']::after,
+.all .tile[data-letter='x']::after {
+  content: "8";
+}
+.all .tile[data-letter='q']::after,
+.all .tile[data-letter='z']::after {
+  content: "10";
+}
