@@ -24,10 +24,10 @@ export function links() {
       rel: "stylesheet",
       href: globalStyles,
     },
-    {
-      rel: "stylesheet",
-      href: "(https://fonts.googleapis.com/css?family=Oswald)",
-    },
+    // {
+    //   rel: "stylesheet",
+    //   href: "https://fonts.googleapis.com/css?family=Oswald",
+    // },
   ];
 }
 
@@ -41,7 +41,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <Outlet surpressHydrationWarning/>
         <ScrollRestoration />
         <Scripts>
         </Scripts>
