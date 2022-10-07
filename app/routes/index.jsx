@@ -144,9 +144,13 @@ export default function Index() {
         </div>
         <p className="score">SCORE: {score2 > 0 ? score2 : savedScore2}</p> 
         <div className="score-block">
-          <input id="score-input2" className="inputs" type="number" onChange={e => setHoldingScore2(score2 + (+e.target.value))} />
-          <button onClick={() => addScore2()} className="add-score">Add</button>
-          <button onClick={() => clearScore2()} className="add-score">Clear</button>
+          <input id="score-input2" className="inputs" type="number" onChange={e => setHoldingScore2(+e.target.value)} />
+          <div className="add-btn">
+            <button onClick={() => addScore2()} className="add-score">Add</button>
+          </div>
+          <div className="clear-btn">
+            <button onClick={() => clearScore2()} className="add-score">Clear</button>
+          </div>
         </div>
         <hr />
       </div>

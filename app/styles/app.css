@@ -43,6 +43,7 @@ h3 {
 
 .clear-btn {
   justify-self: flex-end;
+  margin-left: 2rem;
 }
 
 .word-checker {
