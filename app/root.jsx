@@ -1,12 +1,12 @@
-const {
+import {
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-} = require("@remix-run/react");
-const globalStyles = require("~/styles/app.css")
+} from "@remix-run/react";
+import globalStyles from "~/styles/app.css"
 
 export const meta = () => ({
   charset: "utf-8",
