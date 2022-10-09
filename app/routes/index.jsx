@@ -80,7 +80,7 @@ export default function Index() {
 
   const generateWordResponse = () => {
     if (wordCheck?.length > 0) {
-      return <>This is a scrabble word! <a target='_blank' rel='noreferrer' href={`${wordCheck[0].sourceUrls[0]}`}>Meaning</a></>
+      return <>This is a scrabble word! <a className="link-txt" target='_blank' rel='noreferrer' href={`${wordCheck[0].sourceUrls[0]}`}>Meaning</a></>
     } else if (wordCheck?.message) {
       return <span className='not-a-word'>This is not a scrabble word!</span>
     } 
@@ -154,27 +154,54 @@ export default function Index() {
     return playerNameArr
   }
 
+  function indexOfMax(arr) {
+    if (arr.length === 0) {
+        return -1;
+    }
+    var max = arr[0];
+    var maxIndex = 0;
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] > max) {
+            maxIndex = i;
+            max = arr[i];
+        }
+    }
+    return maxIndex;
+}
+
   const renderPlayerBoxes = () => {
     const playerBoxes = []
     const parsedPlayers = JSON.parse(players)
-    for (let player of parsedPlayers) {
+    const scoresArr = parsedPlayers.map(player => Number(playerScore(player)))
+    const gameStart = scoresArr.every(score => score === 0)
+    const leadIndex = indexOfMax(scoresArr)
+
+    for (let i = 0; i < parsedPlayers.length; i++) {
+      let scoreClass = ''
+      if (!gameStart && i === leadIndex) {
+        scoreClass = 'lead-score'
+      } 
       const tileArr =[]
-      for (let i = 0; i < player.length; i++) {
+      for (let j = 0; j < parsedPlayers[i].length; j++) {
         tileArr.push(
-          <div className="tile" key={[i]} data-letter={player[i]}></div>
+          <div className="tile" key={[j]} data-letter={parsedPlayers[i][j]}></div>
         )
       }
       playerBoxes.push(
-        <div key={player}>
+        <div key={parsedPlayers[i]} score={playerScore(parsedPlayers[i])}>
         <div className="rack">
         {tileArr}
         </div>
-        <p className="score">SCORE: {playerScore(player)}</p>
+        <p className="score">SCORE: <span className={scoreClass}>{playerScore(parsedPlayers[i])}</span></p>
+          <form className="score-form" onSubmit={e => e.preventDefault()}>
         <div className="score-block">
-          <input id="score-input" className={`btn inputs ${player}`} type="number"/>
-            <button onClick={() => setPlayerScore(player)} className="btn add-btn">Add</button>
-            <button onClick={() => clearScore(player)} className="btn clear-btn">Clear</button>
+          <input id="score-input" className={`btn inputs ${parsedPlayers[i]} word-input`} type="number"/>
+          <div className="score-btns">
+            <button type='submit' onClick={() => setPlayerScore(parsedPlayers[i])} className="score-btn">Add</button>
+            <button onClick={() => clearScore(parsedPlayers[i])} className="score-btn clear-btn">Clear</button>
+          </div>
         </div>
+          </form>
         <hr />
         </div>
       )
@@ -197,6 +224,9 @@ export default function Index() {
       }
       </div>
       <h1>SCRABBLE MASTER</h1>
+      <div className="word-response">
+        {generateWordResponse()}
+      </div>
       <div className="word-checker">
       <input type="text" className="word-input" />
       <div 
@@ -212,9 +242,6 @@ export default function Index() {
         Check word
       </div>
       </div>
-      <div className="word-response">
-        {generateWordResponse()}
-      </div>
       <hr />
       <div className="score-display">
         {players ? 
@@ -222,31 +249,35 @@ export default function Index() {
         :
         '' }
         { playerCount && !players ?
-            <div className="name-inputs">
+            <form className="name-inputs">
               {renderPlayerInputs()}
               <button
+                type='submit'
                 className="btn start-btn" 
-                onClick={async () => {
+                onClick={e => {
+                e.preventDefault()
                 const playerNames = document.querySelectorAll('.player-name')
                 startGame(playerNames)
               }}>
                 Start Game!
                 </button>
-          </div>
+          </form>
         : 
           players ? '' :
           <div className="count-box">
-            <select defaultValue="Player Count" className='player-count' name="player-count" id="player-count">
-              <option disabled hidden >Player Count</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
+            <div className="dropdown-menu">
+              <div className="dropdown-label">PLAYER COUNT</div>
+              <select defaultValue="2" className='player-count btn' name="player-count" id="player-count">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
             <button className="btn addplr-btn" onClick={() => {
               setPlayerCount(document.getElementById("player-count").value)
             }}
             >
-              Add players
+              Add NAMES
             </button>
           </div>
         }

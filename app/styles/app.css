@@ -2,14 +2,17 @@ body {
   background-color: #b01315;
   color: #e6c998;
   min-height: fit-content;
-  font-family: 'Roboto Slab', serif !important;
+  /* font-family: 'Roboto Slab', serif !important; */
+  font-family: Oswald, sans-serif !important;
 }
 
 h1 {
   font-size: 32px;
   text-align: center;
-  margin: 15px 5px;
+  margin: 10px 5px 6px 5px;
   color: #e6c998;
+  line-height: 30px;
+  letter-spacing: 3px;
 }
 
 h3 {
@@ -18,31 +21,37 @@ h3 {
 
 .score-block {
   display: flex;
-  justify-content: flex-start;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  margin: 0 14px 10px 14px;
 }
 
 .score {
-  margin: 2px 10px;
-  font-size: 24px;
+  margin: 0 10px;
+  font-size: 20px;
   color: gainsboro;
   text-align: center;
 }
 
+.lead-score {
+  color: #10ed36;
+}
+
 .inputs {
   max-width: 80px;
-  margin: 0 14px;
+  /* margin: 0 14px; */
   justify-self: flex-start;
 }
 
-.add-btn {
-  background-color: #e6c998;
+.score-btn {
+  color: #e6c998;
+  font-weight: bold;
+  background: none;
+  border: none;
+  text-transform: uppercase;
 }
 
 .clear-btn {
-  background-color: #e6c998;
-  position: relative;
-  left: 95px;
+  margin-left: 10px;
 }
 
 .word-checker {
@@ -53,9 +62,10 @@ h3 {
 }
 
 .word-response {
-  min-height: 20px;
+  min-height: 22px;
   margin: 0 20px;
-  color: #00e300;
+  color: #10ed36;
+  text-align: center;
 }
 
 .reset-game {
@@ -72,6 +82,7 @@ h3 {
   border: none;
   border-radius: 3.5px;
   text-transform: uppercase;
+  background: #e6c998;
 }
 
 .start-btn {
@@ -80,9 +91,16 @@ h3 {
   font-size: 15px;
 }
 
+.link-txt {
+  text-decoration: none;
+  font-style: italic;
+  color: mediumblue;
+}
+
 .addplr-btn {
   font-size: 14px;
   padding: 2px 10px;
+  align-self: end;
 }
 
 .player-name {
@@ -97,6 +115,16 @@ h3 {
   border: none;
   border-radius: 4px;
   height: 24px;
+  width: 40%;
+  text-align: center;
+}
+
+.dropdown-menu {
+  text-align: center;
+}
+
+.dropdown-label {
+  margin-bottom: 5px;
 }
 
 #timerLabel {
@@ -177,8 +205,8 @@ body {
   background-color: #f5cf90;
   background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/veneer-birch-texture-fs8.png');
   position: relative;
-  width: 9mm;
-  height: 9mm;
+  width: 8mm;
+  height: 8mm;
   box-sizing: border-box;
   box-shadow: 0 1.125mm 0.75mm -0.5mm rgba(0, 0, 0, 0.4);
   border-style: solid;
@@ -196,7 +224,7 @@ body {
   content: attr(data-letter);
   text-transform: uppercase;
   font-family: Oswald, sans-serif;
-  font-size: 6mm;
+  font-size: 5mm;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -209,8 +237,8 @@ body {
   font-family: sans-serif;
   font-size: 3mm;
   position: absolute;
-  right: 12.5%;
-  bottom: 12.5%;
+  right: 13.5%;
+  bottom: 14.5%;
   transform: translate(50%, 50%);
 }
 .rack .tile[data-letter='e']::after,
@@ -265,8 +293,8 @@ body {
   background-color: #f5cf90;
   background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/49914/veneer-birch-texture-fs8.png');
   position: relative;
-  width: 9.5mm;
-  height: 9.5mm;
+  width: 8mm;
+  height: 8mm;
   box-sizing: border-box;
   box-shadow: 0 0.5625mm 0.375mm -0.25mm rgba(0, 0, 0, 0.4);
   border-style: solid;
@@ -284,7 +312,7 @@ body {
   content: attr(data-letter);
   text-transform: uppercase;
   font-family: Oswald, sans-serif;
-  font-size: 6.65mm;
+  font-size: 5mm;
   position: absolute;
   top: 50%;
   left: 50%;
