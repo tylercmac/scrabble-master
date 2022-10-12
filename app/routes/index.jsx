@@ -5,7 +5,7 @@ export default function Index() {
   const [wordCheck, setWordCheck] = useState('')
   const [playerCount, setPlayerCount] = useState(0)
   const [players, setPlayers] = useState('')
-  const [time, setTime] = useState(0)
+  const [time, setTime] = useState('')
   const [isTimer, setIsTimer] = useState(false)
   const [intervalID, setIntervalID] = useState()
 
@@ -36,11 +36,25 @@ export default function Index() {
     }
   }, [players])
 
+ const toHHMMSS = (str) => {
+    var sec_num = parseInt(str, 10); // don't forget the second param
+    var hours   = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds;
+}
+
   const resumeStopWatch = () => {
     const myInterval = setInterval(() => {
         const storageTime = new Date(window.localStorage.getItem('startTime'));
         const secsDiff = new Date().getTime() - storageTime.getTime();
-        setTime(Math.floor(secsDiff / 1000))
+        const getSecs = Math.floor(secsDiff / 1000)
+        const formatTime = toHHMMSS(`${getSecs}`)
+        setTime(formatTime)
       }, 1000);
     setIntervalID(myInterval)
   }
@@ -51,7 +65,9 @@ export default function Index() {
     const storageTime = new Date(window.localStorage.getItem('startTime'));
     const myInterval = setInterval(() => {
         const secsDiff = new Date().getTime() - storageTime.getTime();
-        setTime(Math.floor(secsDiff / 1000))
+        const getSecs = Math.floor(secsDiff / 1000)
+        const formatTime = toHHMMSS(`${getSecs}`)
+        setTime(formatTime)
       }, 1000);
     setIntervalID(myInterval)
     }
@@ -73,18 +89,30 @@ export default function Index() {
     }
 
   const callAPI = async (word) =>  {
+    let UIResponse = {
+      status: 200,
+      url: ''
+    }
+    try {
       const response = await fetch(generateURL(word), { method: 'get' })
-      const parsedResponse = await response.json();
-      return parsedResponse
+      if (response.status === 404) {
+        return response
+      } else if (response.status === 200) {
+        const parsedResponse = await response.json();
+        UIResponse.url = parsedResponse[0].sourceUrls[0]
+        return UIResponse
+      }
+    } catch (err) {
+      console.error('Could not fetch from dictionaryapi', err);
+    }
   }
 
   const generateWordResponse = () => {
-    if (wordCheck?.length > 0) {
-      return <>This is a scrabble word! <a className="link-txt" target='_blank' rel='noreferrer' href={`${wordCheck[0].sourceUrls[0]}`}>Meaning</a></>
-    } else if (wordCheck?.message) {
+    if (wordCheck?.status === 200) {
+      return <>This is a scrabble word! <a className="link-txt" target='_blank' rel='noreferrer' href={`${wordCheck.url}`}>Meaning</a></>
+    } else if (wordCheck?.status === 404) {
       return <span className='not-a-word'>This is not a scrabble word!</span>
-    } 
-      else return ''
+    } else return ''
   }
 
   const playerScore = (player) => {
@@ -96,7 +124,9 @@ export default function Index() {
   const setPlayerScore = (player) => {
     const playerEl = document.querySelector(`.${player}`)
     const score = playerEl.value
-    localStorage.setItem(player, (+score + +playerScore(player)))
+    let newScore = +score + +playerScore(player)
+    if (newScore < 0) newScore = 0
+    localStorage.setItem(player, newScore)
     playerEl.value = ''
     setCount(count + 1)
   }
@@ -193,9 +223,13 @@ export default function Index() {
         {tileArr}
         </div>
         <p className="score">SCORE: <span className={scoreClass}>{playerScore(parsedPlayers[i])}</span></p>
-          <form className="score-form" onSubmit={e => e.preventDefault()}>
+          <form className="score-form" onSubmit={e => {
+            const inputs = document.querySelectorAll('.score-input')
+            inputs.forEach(input => input.blur())
+            e.preventDefault()
+          }}>
         <div className="score-block">
-          <input id="score-input" className={`btn inputs ${parsedPlayers[i]} word-input`} type="number"/>
+          <input id="score-input" className={`btn inputs ${parsedPlayers[i]} score-input`} type="number"/>
           <div className="score-btns">
             <button type='submit' onClick={() => setPlayerScore(parsedPlayers[i])} className="score-btn">Add</button>
             <button onClick={() => clearScore(parsedPlayers[i])} className="score-btn clear-btn">Clear</button>
@@ -227,21 +261,23 @@ export default function Index() {
       <div className="word-response">
         {generateWordResponse()}
       </div>
-      <div className="word-checker">
+      <form className="word-checker">
       <input type="text" className="word-input" />
-      <div 
-        onClick={async () => {
+      <button
+        type="submit"
+        onClick={async e => {
+          e.preventDefault()
           const wordInput = document.querySelector(".word-input")
+          wordInput.blur()
           const response = await callAPI(wordInput.value)
           setWordCheck(response)
           wordInput.value = ''
-        }
-      }
-      className="submit-word"
+        }}
+        className="score-btn"
       >
         Check word
-      </div>
-      </div>
+      </button>
+      </form>
       <hr />
       <div className="score-display">
         {players ? 
@@ -255,9 +291,9 @@ export default function Index() {
                 type='submit'
                 className="btn start-btn" 
                 onClick={e => {
-                e.preventDefault()
-                const playerNames = document.querySelectorAll('.player-name')
-                startGame(playerNames)
+                  e.preventDefault()
+                  const playerNames = document.querySelectorAll('.player-name')
+                  startGame(playerNames)
               }}>
                 Start Game!
                 </button>

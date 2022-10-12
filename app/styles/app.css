@@ -157,6 +157,14 @@ h3 {
   color: #e6c998;
 }
 
+.score-input {
+  width: 50%;
+  border: none;
+  border-bottom: 2px solid #e6c998;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e6c998;
+}
+
 .timer {
   position: absolute;
   width: 100%;
