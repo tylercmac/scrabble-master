@@ -81,20 +81,14 @@ export default function Index() {
     }
   } 
 
-  const generateURL = (wordToCheck) => {
-    const API = {
-      baseURL: `https://api.dictionaryapi.dev/api/v2/entries/en/${wordToCheck}`,
-    }
-      return API.baseURL
-    }
-
   const callAPI = async (word) =>  {
     let UIResponse = {
       status: 200,
       url: ''
     }
+    const baseURL = `https://api.dictionaryapi.dev/api/v2/entries/en/${word.trim(' ')}`
     try {
-      const response = await fetch(generateURL(word), { method: 'get' })
+      const response = await fetch(baseURL, { method: 'get' })
       if (response.status === 404) {
         return response
       } else if (response.status === 200) {
@@ -243,6 +237,19 @@ export default function Index() {
     return playerBoxes
   }
 
+  const checkWord = async () => {
+    const wordInput = document.querySelector(".word-input")
+    const wordResponse = document.querySelector(".word-result")
+    wordInput.blur()
+    const response = await callAPI(wordInput.value)
+    setWordCheck(response)
+    wordResponse.style.display = 'inline'
+    wordInput.value = ''
+    setTimeout(() => {
+      wordResponse.style.display = 'none'
+    }, 4000)
+  }
+
   return (
     <>
     <div style={{ lineHeight: "1.4" }}>
@@ -259,7 +266,9 @@ export default function Index() {
       </div>
       <h1>SCRABBLE MASTER</h1>
       <div className="word-response">
-        {generateWordResponse()}
+        <div className= 'word-result'>{
+          generateWordResponse()}
+        </div>
       </div>
       <form className="word-checker">
       <input type="text" className="word-input" />
@@ -267,11 +276,7 @@ export default function Index() {
         type="submit"
         onClick={async e => {
           e.preventDefault()
-          const wordInput = document.querySelector(".word-input")
-          wordInput.blur()
-          const response = await callAPI(wordInput.value)
-          setWordCheck(response)
-          wordInput.value = ''
+          await checkWord()
         }}
         className="score-btn"
       >
