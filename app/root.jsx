@@ -10,7 +10,7 @@ import globalStyles from "~/styles/app.css"
 
 export const meta = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "ScrabbleMaster",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -23,11 +23,7 @@ export function links() {
     {
       rel: "stylesheet",
       href: globalStyles,
-    },
-    // {
-    //   rel: "stylesheet",
-    //   href: "https://fonts.googleapis.com/css?family=Oswald",
-    // },
+    }
   ];
 }
 
